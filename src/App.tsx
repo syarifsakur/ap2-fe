@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/user/home";
-import { AdminRoute } from "./routers";
+import { AdminRoute,AuthRoute } from "./routers";
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin/*" element={<AdminRoute />} />
+        <Route path="/auth/*" element={<AuthRoute />} />
       </Routes>
     </BrowserRouter>
   );

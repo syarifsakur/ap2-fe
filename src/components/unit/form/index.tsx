@@ -97,13 +97,10 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
       });
 
       if (fileList.length > 0 && fileList[0].originFileObj) {
-        // ✅ user upload file baru
         formData.append("file", fileList[0].originFileObj as File);
       } else if (values.path_img) {
-        // ✅ tidak upload file baru → kirim path lama
         formData.append("path_img", values.path_img);
       } else {
-        // ❌ kalau benar-benar kosong (buat unit baru tanpa upload)
         message.warning("Harap upload gambar unit!");
         return;
       }
@@ -150,9 +147,11 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
               rules={[{ required: true, message: "Kategori harus diisi" }]}
             >
               <Select placeholder="Pilih kategori">
-                <Option value="Matic">Matic</Option>
-                <Option value="Cub">Cub</Option>
-                <Option value="Sport">Sport</Option>
+                <Option value="matic">Matic</Option>
+                <Option value="sport">Sport</Option>
+                <Option value="cub">Cub</Option>
+                <Option value="ev">Ev</Option>
+                <Option value="bingbike">Big Bike</Option>
               </Select>
             </Form.Item>
             <Form.Item

@@ -6,6 +6,8 @@ import Location from "./location";
 import Check from "./check";
 import { DefaultCredit } from "./credit";
 
+export * from "./others"
+
 export {
   NavbarComponents,
   Beranda,

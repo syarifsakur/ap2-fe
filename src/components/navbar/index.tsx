@@ -10,7 +10,7 @@ const menuItems = [
   { label: "Produk", href: "#products" },
   { label: "Lokasi", href: "#location" },
   { label: "Cek Pembayaran", href: "#payment" },
-  {label: "admin", href: "/admin" },
+  {label: "Login", href: "/auth/login" },
 ];
 
 const NavbarComponents: React.FC = () => {

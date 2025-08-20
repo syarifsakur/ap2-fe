@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Select, Button} from "antd";
+import { Form, Input, Select, Button } from "antd";
 import {
   showNotification,
   showNotificationError,
@@ -19,16 +19,20 @@ const Check: React.FC = () => {
     try {
       setIsLoading(true);
       const response = await createCredit(values);
-      const nama = values.name
-      showNotification("Data Berhasil Di Kirim !")
-       setTimeout(() => {
-      const phoneNumber = '6282393556331';
-      const message = `Halo, saya ${nama} mengirim pesan otomatis `; 
-      const encodedMessage = encodeURIComponent(message);
-      const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+      const nama = values.name;
 
-      window.open(url, '_blank');
-    }, 2000); 
+      showNotification("Data Berhasil Di Kirim !");
+
+      form.resetFields();
+
+      setTimeout(() => {
+        const phoneNumber = "6282393556331";
+        const message = `Halo, saya ${nama} mengirim pesan otomatis `;
+        const encodedMessage = encodeURIComponent(message);
+        const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        window.open(url, "_blank");
+      }, 2000);
+
       console.log("Response:", response.data);
     } catch (error) {
       showNotificationError("Gagal mengirim data!");
@@ -127,6 +131,28 @@ const Check: React.FC = () => {
             >
               <Select placeholder="Pilih Kota">
                 <Option value="Kota Palu">Kota Palu</Option>
+                <Option value="Kabupaten Banggai">Kabupaten Banggai</Option>
+                <Option value="Kabupaten Banggai Kepulauan">
+                  Kabupaten Banggai Kepulauan
+                </Option>
+                <Option value="Kabupaten Banggai Laut">
+                  Kabupaten Banggai Laut
+                </Option>
+                <Option value="Kabupaten Buol">Kabupaten Buol</Option>
+                <Option value="Kabupaten Donggala">Kabupaten Donggala</Option>
+                <Option value="Kabupaten Morowali">Kabupaten Morowali</Option>
+                <Option value="Kabupaten Morowali Utara">
+                  Kabupaten Morowali Utara
+                </Option>
+                <Option value="Kabupaten Parigi Moutong">
+                  Kabupaten Parigi Moutong
+                </Option>
+                <Option value="Kabupaten Poso">Kabupaten Poso</Option>
+                <Option value="Kabupaten Sigi">Kabupaten Sigi</Option>
+                <Option value="Kabupaten Tojo Una-Una">
+                  Kabupaten Tojo Una-Una
+                </Option>
+                <Option value="Kabupaten Tolitoli">Kabupaten Tolitoli</Option>
               </Select>
             </Form.Item>
 
@@ -249,7 +275,7 @@ const Check: React.FC = () => {
                 type="primary"
                 htmlType="submit"
                 className="w-full"
-                style={{ backgroundColor:"red" }}
+                style={{ backgroundColor: "red" }}
                 loading={isLoading}
               >
                 Kirim

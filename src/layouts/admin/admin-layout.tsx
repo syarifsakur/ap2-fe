@@ -4,10 +4,12 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   HomeOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
-import { Button, Layout, Menu, theme, Breadcrumb } from "antd";
+import { Button, Layout, Menu, theme, Breadcrumb, message, Modal } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
-import { menuItems } from "../../utils";
+import { menuItems, removeItem } from "../../utils";
+import { logout } from "../../utils";
 
 const { Header, Sider, Content } = Layout;
 
@@ -38,6 +40,27 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const handleMenuClick = (path: string, key: string) => {
     setSelectedKey(key);
     navigate(path);
+  };
+
+  const confirmLogout = () => {
+    Modal.confirm({
+      title: "Konfirmasi Logout",
+      content: "Apakah Anda yakin ingin Logout?",
+      okText: "Ya, Logout",
+      cancelText: "Batal",
+      okType: "danger",
+      centered: true,
+      onOk: async () => {
+        try {
+          await logout();
+          removeItem("profile");
+          message.success("Logout berhasil!");
+          navigate("/", { replace: true });
+        } catch (err) {
+          message.error("Gagal logout, coba lagi.");
+        }
+      },
+    });
   };
 
   const getBreadcrumbItems = () => {
@@ -101,6 +124,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               </Menu.ItemGroup>
             </React.Fragment>
           ))}
+
+          <Menu.Item
+            key="logout"
+            icon={<LogoutOutlined />}
+            onClick={confirmLogout}
+          >
+            Logout
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>

@@ -26,5 +26,6 @@ export const menuItems = [
         path: "/admin/credit",
       },
     ],
-  }
+    
+  },  
 ];

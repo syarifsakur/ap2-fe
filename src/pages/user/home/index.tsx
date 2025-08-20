@@ -10,19 +10,23 @@ import {
 import Footer from "../../../components/footer";
 import { fetchUnit } from "../../../utils/apis";
 import type { Products } from "../../../types/produk";
+import { Loading } from "../../../components"; 
 
 const Home: React.FC = () => {
   const [units, setUnits] = useState<Products[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const getUnits = async () => {
       try {
+        setLoading(true);
         const res = await fetchUnit();
-        console.log(res.data.response);
         setUnits(res.data.response);
       } catch (err) {
         console.error("Error fetching units:", err);
         setUnits([]);
+      } finally {
+        setTimeout(() => setLoading(false), 300); 
       }
     };
     getUnits();
@@ -30,13 +34,19 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <NavbarComponents />
-      <Beranda />
-      <About />
-      <Product units={units} />
-      <Location />
-      <Check />
-      <Footer />
+      {loading ? (
+        <Loading setIsLoading={setLoading} />
+      ) : (
+        <>
+          <NavbarComponents />
+          <Beranda />
+          <About />
+          <Product units={units} />
+          <Location />
+          <Check />
+          <Footer />
+        </>
+      )}
     </>
   );
 };
