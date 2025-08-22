@@ -12,4 +12,5 @@ export interface Credit {
   tenor_amount: '12 bulan' | '24 bulan' | '36 bulan' | '48 bulan' | '60 bulan';
   message?: string; 
   name?:string;
+  createdAt?:string
 }

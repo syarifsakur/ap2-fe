@@ -1,14 +1,15 @@
 import { Button, Tooltip, Popconfirm } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import type { Credit } from "../types/credit";
+import dayjs from "dayjs";
 
 export const creditColumns: (pagination: {
   current: number;
   pageSize: number;
   onDelete: (value: string) => void;
   onEdit: (value: string) => void;
-}) => ColumnsType<Credit> = ({ current, pageSize, onDelete, onEdit }) => [
+}) => ColumnsType<Credit> = ({ current, pageSize, onDelete }) => [
   {
     key: "no",
     title: "NO.",
@@ -18,9 +19,23 @@ export const creditColumns: (pagination: {
     align: "center",
   },
   {
+    title: "Tanggal",
+    dataIndex: "createdAt",
+    key: "createdAt",
+    align: "center",
+    render: (value) => <span>{dayjs(value).format("YYYY-MM-DD")}</span>,
+  },
+  {
     title: "Nama",
     dataIndex: "name",
     key: "name",
+    align: "center",
+    render: (text) => <span>{text}</span>,
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
     align: "center",
     render: (text) => <span>{text}</span>,
   },
@@ -38,27 +53,16 @@ export const creditColumns: (pagination: {
     align: "center",
     render: (text) => <span>{text}</span>,
   },
-  {
-    title: "Provinsi",
-    dataIndex: "province",
-    key: "province",
-    align: "center",
-    render: (text) => <span>{text}</span>,
-  },
-  {
-    title: "Kota",
-    dataIndex: "city",
-    key: "city",
-    align: "center",
-    render: (text) => <span>{text}</span>,
-  },
-  {
-    title: "Kategori",
-    dataIndex: "category_motor",
-    key: "category_motor",
-    align: "center",
-    render: (text) => <span>{text}</span>,
-  },
+{
+  title: "Unit",
+  dataIndex: "unit_id",
+  key: "unit_id",
+  align: "center",
+  render: (_: any, record: any) => (
+    <span>{record.unit?.type_name || "-"}</span>
+  ),
+},
+
   {
     title: "Down Payment",
     dataIndex: "down_payment",
@@ -81,28 +85,14 @@ export const creditColumns: (pagination: {
     render(value, record) {
       return (
         <div className="space-x-2 text-center">
-          <Tooltip title="Edit" overlayInnerStyle={{ color: 'blue' }}>
-            <Button
-              htmlType="button"
-              type="text"
-              className="cursor-pointer text-blue-600 hover:text-blue-800"
-              onClick={() => onEdit(value)}
-            >
-              <MdEdit className="text-lg text-blue-600" />
-            </Button>
-          </Tooltip>
           <Popconfirm
             title={`Yakin menghapus kredit ${record.name}?`}
             onConfirm={() => onDelete(value)}
             okText="Ya"
             cancelText="Tidak"
           >
-            <Tooltip title="Delete" overlayInnerStyle={{ color: 'red' }}>
-              <Button
-                htmlType="button"
-                type="text"
-                className="cursor-pointer text-red-600 hover:text-red-800"
-              >
+            <Tooltip title="Delete" overlayInnerStyle={{ color: "white" }}>
+              <Button htmlType="button" type="text" className="cursor-pointer">
                 <MdDelete className="text-lg text-red-600" />
               </Button>
             </Tooltip>
@@ -112,4 +102,3 @@ export const creditColumns: (pagination: {
     },
   },
 ];
-

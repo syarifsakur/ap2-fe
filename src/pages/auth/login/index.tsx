@@ -7,7 +7,7 @@ import { Button, Col, Form, Input, message } from "antd";
 import React, { useState } from "react";
 import { Loading } from "../../../components";
 import { useNavigate } from "react-router-dom";
-import { login, setItem } from "../../../utils";
+import { login, setItem, showNotificationError } from "../../../utils";
 import type { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
 import { showNotification } from "../../../utils";
@@ -61,10 +61,10 @@ const Login: React.FC = () => {
           form.setFields([{ name: "password", errors: [data?.password] }]);
         }
         if (!data?.username && !data?.password && data?.message) {
-          msg.error(data.message);
+          showNotificationError(data.message);
         }
       } else {
-        msg.error(
+        showNotificationError(
           (data && data.message) ||
             (error instanceof Error
               ? error.message

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Table, Input, Modal, Card, message } from "antd";
+import { Button, Table, Input, Modal, Card} from "antd";
 import { unitColumns } from "../../../columns/unit.columns";
 import { deleteUnit, fetchUnit } from "../../../utils/apis";
 import type { Products } from "../../../types";
@@ -9,6 +9,7 @@ import ModalDimensions from "../modal/dimensions";
 import ModalCapacity from "../modal/capacity";
 import ModalElectricity from "../modal/electricity";
 import { useNavigate } from "react-router-dom";
+import { showNotification, showNotificationError } from "../../../utils";
 
 const tabListNoTitle = [
   {
@@ -66,11 +67,11 @@ const DefaultUnit: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteUnit(id);
-      message.success("Unit berhasil dihapus!");
+      showNotification("Unit berhasil dihapus!");
       setUnits((prev) => prev.filter((unit) => unit.uuid !== id));
     } catch (error) {
       console.error(error);
-      message.error("Gagal menghapus unit!");
+      showNotificationError("Gagal menghapus unit!");
     }
   };
 

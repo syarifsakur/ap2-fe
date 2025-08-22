@@ -6,9 +6,9 @@ import {
   HomeOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import { Button, Layout, Menu, theme, Breadcrumb, message, Modal } from "antd";
+import { Button, Layout, Menu, theme, Breadcrumb, Modal } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
-import { menuItems, removeItem } from "../../utils";
+import { menuItems, removeItem, showNotification, showNotificationError } from "../../utils";
 import { logout } from "../../utils";
 
 const { Header, Sider, Content } = Layout;
@@ -54,10 +54,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         try {
           await logout();
           removeItem("profile");
-          message.success("Logout berhasil!");
+          showNotification("Logout berhasil!");
           navigate("/", { replace: true });
         } catch (err) {
-          message.error("Gagal logout, coba lagi.");
+          console.log(err)
+          showNotificationError("Gagal logout, coba lagi.");
         }
       },
     });
@@ -100,15 +101,24 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         style={{
           height: "100vh",
           overflow: "auto",
+          backgroundColor: "white",
         }}
       >
-        <div className="demo-logo-vertical flex items-center justify-center h-16">
-          <img src="/src/assets/react.svg" alt="logo" className="w-10 h-10" />
+        <div className="demo-logo-vertical flex items-center justify-center h-16 shadow-md border-b border-gray-200">
+          <img
+            src="/src/assets/Honda_Logo.svg.png"
+            alt="logo"
+            className="w-10 h-10"
+          />
           {!collapsed && (
-            <p className="m-2 font-bold text-2xl text-white">Admin</p>
+            <p className="m-2 font-bold text-2xl text-black">Admin</p>
           )}
         </div>
-        <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]}>
+        <Menu
+          style={{ backgroundColor: "white" }}
+          mode="inline"
+          selectedKeys={[selectedKey]}
+        >
           {menuItems.map((section) => (
             <React.Fragment key={section.title}>
               <Menu.ItemGroup title={section.title}>

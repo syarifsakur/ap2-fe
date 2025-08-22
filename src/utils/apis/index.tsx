@@ -20,7 +20,7 @@ API_JWT.interceptors.request.use(
       if (isExpired) {
         try {
           const response = await axios.get(
-            "http://localhost:5001/auth/refresh-token"
+            "http://localhost:3000/auth/refresh-token"
           );
 
           const newToken = response.data.token;
@@ -82,4 +82,7 @@ export const createCredit = async (data: Credit) => {
 };
 export const fetchCredit = async () => {
   return await API_JWT.get("/credit");
+};
+export const deleteCredit = async (id:string) => {
+  return await API_JWT.delete(`/credit/delete/${id}`)
 };

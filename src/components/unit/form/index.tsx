@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Upload, Select, message, Steps } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Upload,
+  Select,
+  message,
+  Steps,
+  InputNumber,
+} from "antd";
 import type { UploadFile } from "antd/es/upload/interface";
 import { UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -139,7 +148,17 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
               label="Harga"
               rules={[{ required: true, message: "Harga harus diisi" }]}
             >
-              <Input type="number" placeholder="Contoh: 20000000" />
+              <InputNumber
+                style={{ width: "100%" }}
+                size="large"
+                placeholder="Cth: 200000"
+                formatter={(value) =>
+                  `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                }
+                parser={(value: any) =>
+                  value?.replace(/Rp\s?|(,|\.)+/g, "") ?? ""
+                }
+              />
             </Form.Item>
             <Form.Item
               name="category"
@@ -244,13 +263,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="Manual 5 Kecepatan" />
             </Form.Item>
-            <Form.Item
-              name="plug_type"
-              label="Tipe Busi"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="NGK CPR9EA-9" />
-            </Form.Item>
+
             <Form.Item
               label="Pendingin Mesin"
               name="air_cooled_engine"
@@ -400,6 +413,13 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
               rules={[{ required: true }]}
             >
               <Input placeholder="Full Transistorized" />
+            </Form.Item>
+            <Form.Item
+              name="plug_type"
+              label="Tipe Busi"
+              rules={[{ required: true }]}
+            >
+              <Input placeholder="NGK CPR9EA-9" />
             </Form.Item>
           </>
         )}

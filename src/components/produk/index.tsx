@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { Layout, Button } from "antd";
+import { Layout, Button, Modal, Card } from "antd";
 import type { Products } from "../../types/produk";
+import { IoMdEye } from "react-icons/io";
+import ModalMachine from "../unit/modal/machine";
+import ModalFrame from "../unit/modal/frame";
+import ModalDimensions from "../unit/modal/dimensions";
+import ModalCapacity from "../unit/modal/capacity";
+import ModalElectricity from "../unit/modal/electricity";
+import { showNotification } from "../../utils";
 
 const { Content } = Layout;
 
@@ -8,12 +15,61 @@ interface ProductProps {
   units: Products[];
 }
 
+const tabListNoTitle = [
+  { key: "Mesin", label: "Mesin" },
+  { key: "Rangka", label: "Rangka" },
+  { key: "Dimensi", label: "Dimensi" },
+  { key: "Kapasitas", label: "Kapasitas" },
+  { key: "Kelistrikan", label: "Kelistrikan" },
+];
+
 const Product: React.FC<ProductProps> = ({ units }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("matic");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedUnit, setSelectedUnit] = useState<Products | null>(null);
+  const [activeTabKey, setActiveTabKey] = useState<string>("Mesin");
 
   const filteredUnits = units.filter(
     (unit) => unit.category === selectedCategory
   );
+
+  const handleDetail = (unit: Products) => {
+    setSelectedUnit(unit);
+    setIsModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+    setSelectedUnit(null);
+  };
+
+  const contentListNoTitle: Record<string, React.ReactNode> = {
+    Mesin: selectedUnit?.machine ? (
+      <ModalMachine machine={selectedUnit.machine} />
+    ) : (
+      <p>Data mesin tidak tersedia.</p>
+    ),
+    Rangka: selectedUnit?.frame ? (
+      <ModalFrame frame={selectedUnit.frame} />
+    ) : (
+      <p>Data kerangka tidak tersedia.</p>
+    ),
+    Dimensi: selectedUnit?.Dimensions ? (
+      <ModalDimensions dimensions={selectedUnit.Dimensions} />
+    ) : (
+      <p>Data dimensi tidak tersedia.</p>
+    ),
+    Kapasitas: selectedUnit?.Capacity ? (
+      <ModalCapacity capacity={selectedUnit.Capacity} />
+    ) : (
+      <p>Data kapasitas tidak tersedia.</p>
+    ),
+    Kelistrikan: selectedUnit?.Electricity ? (
+      <ModalElectricity electricity={selectedUnit.Electricity} />
+    ) : (
+      <p>Data kelistrikan tidak tersedia.</p>
+    ),
+  };
 
   return (
     <div>
@@ -81,17 +137,32 @@ const Product: React.FC<ProductProps> = ({ units }) => {
                       <Button
                         type="primary"
                         style={{
-                          background: "linear-gradient(to right, #f00, #f99)", 
-                          borderColor: "",
+                          background: "linear-gradient(to right, #f00, #f99)",
+                          borderColor: "transparent",
                           color: "white",
                         }}
                         className="mt-4"
-                        onClick={() =>
-                          (window.location.href =
-                            "https://wa.me/+6282393556331")
-                        }
+                        onClick={() => {
+                          showNotification("Anda Akan Di ")
+                          setTimeout(() => {
+                            const phoneNumber = "6282393556331";
+                            const message = `Halo, saya tertarik melakukan pembelian sepeda motor Honda.`;
+                            const encodedMessage = encodeURIComponent(message);
+                            const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+                            window.open(url, "_blank");
+                          });
+                        }}
                       >
                         Hubungi Kami
+                      </Button>
+
+                      <Button
+                        htmlType="button"
+                        type="text"
+                        className="cursor-pointer text-green-600 hover:text-green-800"
+                        onClick={() => handleDetail(product)}
+                      >
+                        <IoMdEye className="text-lg text-green-600" />
                       </Button>
                     </div>
                   </div>
@@ -100,29 +171,11 @@ const Product: React.FC<ProductProps> = ({ units }) => {
             ) : (
               <div className="text-center text-gray-500 my-40">
                 <div className="flex flex-col items-center">
-                  <div className="bg-blue-100 rounded-full p-6 mb-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-12 w-12 text-blue-500"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 3h18M3 3v18m18-18v18M3 21h18"
-                      />
-                    </svg>
-                  </div>
                   <h3 className="text-xl font-semibold text-gray-700">
                     Belum Ada Produk
                   </h3>
                   <p className="text-gray-500 mt-2">
-                    Saat ini belum ada produk yang tersedia. Silakan kembali
-                    lagi nanti untuk melihat produk-produk unggulan dari
-                    Anugerah Perdana Honda Imam Bonjol.
+                    Saat ini belum ada produk yang tersedia.
                   </p>
                 </div>
               </div>
@@ -130,6 +183,29 @@ const Product: React.FC<ProductProps> = ({ units }) => {
           </div>
         </section>
       </Content>
+
+      {/* Modal Detail */}
+      <Modal
+        title={selectedUnit?.type_name}
+        open={isModalVisible}
+        onCancel={handleModalClose}
+        footer={[
+          <Button key="close" onClick={handleModalClose}>
+            Close
+          </Button>,
+        ]}
+        width={800}
+      >
+        {selectedUnit && (
+          <Card
+            tabList={tabListNoTitle}
+            activeTabKey={activeTabKey}
+            onTabChange={(key) => setActiveTabKey(key)}
+          >
+            {contentListNoTitle[activeTabKey]}
+          </Card>
+        )}
+      </Modal>
     </div>
   );
 };

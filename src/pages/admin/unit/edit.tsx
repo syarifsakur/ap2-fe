@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Spin, message } from "antd";
+import { Spin } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { AdminLayout } from "../../../layouts";
 import FormUnitStep from "../../../components/unit/form";
-import { fetchUnitById, updateUnit } from "../../../utils";
+import { fetchUnitById, showNotification, showNotificationError, updateUnit } from "../../../utils";
 
 const EditUnit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -56,7 +56,7 @@ const EditUnit: React.FC = () => {
         });
       } catch (error) {
         console.error(error);
-        message.error("Gagal mengambil data unit!");
+        showNotificationError("Gagal mengambil data unit!");
       } finally {
         setLoading(false);
       }
@@ -67,11 +67,11 @@ const EditUnit: React.FC = () => {
   const handleSubmit = async (formData: FormData) => {
     try {
       await updateUnit(id!, formData);
-      message.success("Unit berhasil diperbarui!");
+      showNotification("Unit berhasil diperbarui!");
       navigate("/admin/unit");
     } catch (error) {
       console.error(error);
-      message.error("Gagal memperbarui unit!");
+      showNotificationError("Gagal memperbarui unit!");
     }
   };
 
