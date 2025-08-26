@@ -16,17 +16,13 @@ const Dashboard: React.FC = () => {
   const [totalCredit, setTotalCredit] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Ambil data unit & kredit
   useEffect(() => {
     const loadData = async () => {
       try {
         const units = await fetchUnit();
         const credits = await fetchCredit();
 
-      console.log(units)
         setTotalUnit(units.data.total);
-
-
         setTotalCredit(credits.data.total);
       } catch (error) {
         console.error("Gagal fetch data dashboard:", error);
@@ -57,8 +53,9 @@ const Dashboard: React.FC = () => {
 
   return (
     <Content style={{ margin: "20px" }}>
-      <Row gutter={16}>
-        <Col span={12}>
+      {/* Statistik Cards */}
+      <Row gutter={[16, 16]}>
+        <Col xs={24} sm={12} lg={12}>
           <Card loading={loading} className="shadow-xl">
             <Statistic
               title="Total Unit"
@@ -67,8 +64,9 @@ const Dashboard: React.FC = () => {
             />
           </Card>
         </Col>
-        <Col span={12}>
-          <Card loading={loading} className="shadow-xl">  
+
+        <Col xs={24} sm={12} lg={12}>
+          <Card loading={loading} className="shadow-xl">
             <Statistic
               title="Total Kredit"
               value={totalCredit}
@@ -76,17 +74,15 @@ const Dashboard: React.FC = () => {
             />
           </Card>
         </Col>
-        {/* <Col span={6}>
-          <Card>
-            <Statistic
-              title="Total User"
-              value={34}
-              prefix={<UserOutlined />}
-            />
+
+        {/* Kalau nanti mau aktifkan lagi bisa langsung rapih juga */}
+        {/* <Col xs={24} sm={12} lg={6}>
+          <Card loading={loading} className="shadow-xl">
+            <Statistic title="Total User" value={34} prefix={<UserOutlined />} />
           </Card>
         </Col>
-        <Col span={6}>
-          <Card>
+        <Col xs={24} sm={12} lg={6}>
+          <Card loading={loading} className="shadow-xl">
             <Statistic
               title="Database Records"
               value={500}
@@ -96,9 +92,10 @@ const Dashboard: React.FC = () => {
         </Col> */}
       </Row>
 
+      {/* Grafik */}
       <Row style={{ marginTop: "30px" }}>
-        <Col span={24}>
-          <Card title="Grafik Penjualan Unit">
+        <Col xs={24}>
+          <Card title="Grafik Penjualan Unit" className="shadow-xl">
             <Line {...config} />
           </Card>
         </Col>

@@ -26,7 +26,7 @@ const Check: React.FC = () => {
 
       // Redirect WhatsApp
       setTimeout(() => {
-        const phoneNumber = "6282393556331";
+        const phoneNumber = "6285255551795";
         const message = `Halo, saya ${values.name} tertarik melakukan pembelian sepeda motor Honda.`;
         const encodedMessage = encodeURIComponent(message);
         const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;

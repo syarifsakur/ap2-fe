@@ -143,7 +143,7 @@ const Product: React.FC<ProductProps> = ({ units }) => {
                         }}
                         className="mt-4"
                         onClick={() => {
-                          showNotification("Anda Akan Di ")
+                          showNotification("Anda Akan Di Arahkan ke Wa Admin ")
                           setTimeout(() => {
                             const phoneNumber = "6282393556331";
                             const message = `Halo, saya tertarik melakukan pembelian sepeda motor Honda.`;
