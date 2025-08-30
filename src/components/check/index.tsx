@@ -15,7 +15,6 @@ const Check: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
 
-  // Submit Handler
   const handleSubmit = async (values: Credit) => {
     try {
       setIsLoading(true);
@@ -24,7 +23,6 @@ const Check: React.FC = () => {
       showNotification("Data Berhasil Dikirim!");
       form.resetFields();
 
-      // Redirect WhatsApp
       setTimeout(() => {
         const phoneNumber = "6285255551795";
         const message = `Halo, saya ${values.name} tertarik melakukan pembelian sepeda motor Honda.`;
@@ -48,6 +46,7 @@ const Check: React.FC = () => {
       try {
         const response = await fetchUnit();
         setUnits(response.data.response);
+        console.log(response.data.response);
         setFilteredUnits([]);
       } catch (error) {
         showNotificationError("Gagal mengambil data unit!");
@@ -57,7 +56,6 @@ const Check: React.FC = () => {
     fetchUnitsData();
   }, []);
 
-  // Filter units by category
   const handleCategoryChange = (value: string) => {
     const newFilteredUnits = units.filter((unit) => unit.category === value);
     setFilteredUnits(newFilteredUnits);
@@ -70,9 +68,9 @@ const Check: React.FC = () => {
       className="py-10 md:py-20 bg-white flex flex-col items-center"
     >
       <div className="container mx-auto px-4 md:px-8 py-10">
-        <h1 className="text-3xl font-bold text-center mb-10">
-          Simulasi Kredit
-        </h1>
+           <h2 className="text-3xl text-center mb-12">
+              Simulasi Kredit
+            </h2>
 
         <Form
           form={form}
@@ -81,7 +79,6 @@ const Check: React.FC = () => {
           className="bg-white rounded-xl p-8"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
             <div>
               <h2 className="text-xl font-semibold mb-4">
                 Informasi Data Diri
@@ -140,17 +137,15 @@ const Check: React.FC = () => {
                   <Option value="Kabupaten Sigi">Kabupaten Sigi</Option>
                   <Option value="Kabupaten Poso">Kabupaten Poso</Option>
                   <Option value="Kabupaten Tolitoli">Kabupaten Tolitoli</Option>
-                  {/* dst... */}
                 </Select>
               </Form.Item>
             </div>
-
-            {/* Kolom 2 - Info Motor & Pembelian */}
+            
             <div>
               <h2 className="text-xl font-semibold mb-4">Informasi Motor</h2>
               <Form.Item
                 label="Kategori Motor"
-                name="category_motor"
+                name="category"
                 rules={[
                   { required: true, message: "Kategori motor wajib dipilih!" },
                 ]}
@@ -258,18 +253,17 @@ const Check: React.FC = () => {
               </Form.Item>
             </div>
           </div>
-<Form.Item className="mt-8 flex justify-center">
-  <Button
-    type="primary"
-    htmlType="submit"
-    loading={isLoading}
-    className="w-full sm:w-2xl py-2 "
-    style={{ backgroundColor:"red" }}
-  >
-    Kirim
-  </Button>
-</Form.Item>
-
+          <Form.Item className="mt-8 flex justify-center">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={isLoading}
+              className="w-full sm:w-2xl py-2 "
+              style={{ backgroundColor: "red" }}
+            >
+              Kirim
+            </Button>
+          </Form.Item>
         </Form>
       </div>
     </section>

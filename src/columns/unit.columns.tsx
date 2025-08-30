@@ -55,13 +55,43 @@ export const unitColumns: (pagination: {
     align: "center",
     render: (path_img) => (
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <img
-          src={path_img}
-          alt="Unit Image"
-          className="w-32 h-32"
-        />
+        <img src={path_img} alt="Unit Image" className="w-32 h-32" />
       </div>
     ),
+  },
+  {
+    title: "Stok",
+    dataIndex: "stok",
+    key: "stok",
+    align: "center",
+    render: (text) => <span>{text}</span>,
+  },
+  {
+    title: "Status",
+    dataIndex: "ket",
+    key: "ket",
+    align: "center",
+    render: (value) => {
+      if (value == "ready") {
+        return (
+          <div className="bg-green-500 px-2 py-1 rounded-md">
+            <h1 className="text-white font-semibold">{value}</h1>
+          </div>
+        );
+      } else if (value == "sold") {
+        return (
+          <div className="bg-red-500 px-2 py-1 rounded-md">
+            <h1 className="text-white font-semibold">{value}</h1>
+          </div>
+        );
+      } else {
+        return (
+          <div className="bg-yellow-500 px-2 py-1 rounded-md">
+            <h1 className="text-white font-semibold">{value}</h1>
+          </div>
+        );
+      }
+    },
   },
   {
     key: "uuid",

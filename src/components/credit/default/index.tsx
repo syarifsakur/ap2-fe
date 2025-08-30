@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Table, DatePicker, Button } from "antd";
 import dayjs from "dayjs";
 import * as XLSX from "xlsx";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
-
 import { creditColumns } from "../../../columns/credit.columns";
 import { deleteCredit, fetchCredit } from "../../../utils/apis";
 import type { Credit } from "../../../types/credit";
@@ -60,6 +57,7 @@ const DefaultCredit: React.FC = () => {
 
     if (!dateStrings[0] || !dateStrings[1]) {
       setFilteredCredits(credits);
+      setPagination((prev) => ({ ...prev, current: 1 }));
       return;
     }
 
@@ -68,10 +66,11 @@ const DefaultCredit: React.FC = () => {
       const createdAt = dayjs(item.createdAt).format("YYYY-MM-DD");
       return createdAt >= start && createdAt <= end;
     });
+
     setFilteredCredits(filtered);
+    setPagination((prev) => ({ ...prev, current: 1 }));
   };
 
-  // ✅ Download Excel
   const handleDownloadExcel = () => {
     if (filteredCredits.length === 0) {
       showNotificationError("Tidak ada data untuk diexport!");
@@ -79,13 +78,12 @@ const DefaultCredit: React.FC = () => {
     }
 
     const worksheet = XLSX.utils.json_to_sheet(
-      filteredCredits.map((item, index) => ({
-        No: index + 1,
+      filteredCredits.map((item) => ({
         Nama: item.name,
         Email: item.email,
         Phone: item.no_hp,
         Kota: item.city,
-        Kategori: item.category_motor || "-",
+        Kategori: item.category || "-",
         Tenor: item.tenor_amount,
         DP: item.down_payment,
         "Tanggal Dibuat": dayjs(item.createdAt).format("YYYY-MM-DD"),
@@ -93,40 +91,10 @@ const DefaultCredit: React.FC = () => {
     );
 
     const workbook = XLSX.utils.book_new();
+
     XLSX.utils.book_append_sheet(workbook, worksheet, "Data Kredit");
+
     XLSX.writeFile(workbook, "data_kredit.xlsx");
-  };
-
-  // ✅ Download PDF
-  const handleDownloadPDF = () => {
-    if (filteredCredits.length === 0) {
-      showNotificationError("Tidak ada data untuk diexport!");
-      return;
-    }
-
-    const doc = new jsPDF();
-    doc.text("Data Kredit", 14, 15);
-
-    (doc as any).autoTable({
-      head: [
-        ["No", "Nama", "Email", "Phone", "Kota", "Motor", "Kategori", "Tenor", "DP", "Tanggal Dibuat"],
-      ],
-      body: filteredCredits.map((item, index) => [
-        index + 1,
-        item.name,
-        item.email,
-        item.phone,
-        item.city,
-        item.unit?.type_name || "-",
-        item.unit?.category || "-",
-        item.tenor_amount,
-        item.down_payment,
-        dayjs(item.createdAt).format("YYYY-MM-DD"),
-      ]),
-      startY: 20,
-    });
-
-    doc.save("data_kredit.pdf");
   };
 
   return (
@@ -145,12 +113,11 @@ const DefaultCredit: React.FC = () => {
           }}
         />
 
-        {/* Tombol Download */}
-        <Button onClick={handleDownloadExcel} className="bg-green-500 text-white">
+        <Button
+          onClick={handleDownloadExcel}
+          style={{ backgroundColor: "green", color: "white" }}
+        >
           Download Excel
-        </Button>
-        <Button onClick={handleDownloadPDF} className="bg-blue-500 text-white">
-          Download PDF
         </Button>
       </div>
 
@@ -161,7 +128,10 @@ const DefaultCredit: React.FC = () => {
           onDelete: handleDelete,
           onEdit: handleEdit,
         })}
-        dataSource={filteredCredits}
+        dataSource={filteredCredits.map((item, index) => ({
+          ...item,
+          no: (pagination.current - 1) * pagination.pageSize + (index + 1),
+        }))}
         rowKey="uuid"
         loading={isLoading}
         pagination={{

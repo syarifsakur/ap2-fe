@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Row, Col, Card, Statistic } from "antd";
 import {
-  UserOutlined,
+  // UserOutlined,
   ShoppingOutlined,
   DollarOutlined,
-  DatabaseOutlined,
+  // DatabaseOutlined,
 } from "@ant-design/icons";
 import { Line } from "@ant-design/plots";
 import { fetchUnit, fetchCredit } from "../../../utils";
@@ -56,21 +56,23 @@ const Dashboard: React.FC = () => {
       {/* Statistik Cards */}
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} lg={12}>
-          <Card loading={loading} className="shadow-xl">
+          <Card loading={loading} className="shadow-xl h-40 flex items-center">
             <Statistic
-              title="Total Unit"
+              title={<span className="text-xl">Total Unit</span>}
               value={totalUnit}
               prefix={<ShoppingOutlined />}
+              valueRender={(val) => <span className="text-2xl">{val}</span>}
             />
           </Card>
         </Col>
 
         <Col xs={24} sm={12} lg={12}>
-          <Card loading={loading} className="shadow-xl">
+          <Card loading={loading} className="shadow-xl h-40 flex items-center">
             <Statistic
-              title="Total Kredit"
+              title={<span className="text-xl">Total Kredit</span>}
               value={totalCredit}
               prefix={<DollarOutlined />}
+              valueRender={(val) => <span className="text-2xl">{val}</span>}
             />
           </Card>
         </Col>

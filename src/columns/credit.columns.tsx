@@ -55,8 +55,8 @@ export const creditColumns: (pagination: {
   },
     {
     title: "Kategori",
-    dataIndex: "category_motor",
-    key: "category_motor",
+    dataIndex: "category",
+    key: "category",
     align: "center",
     render: (text) => <span>{text}</span>,
   },

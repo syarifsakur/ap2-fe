@@ -3,7 +3,12 @@ import { Spin } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { AdminLayout } from "../../../layouts";
 import FormUnitStep from "../../../components/unit/form";
-import { fetchUnitById, showNotification, showNotificationError, updateUnit } from "../../../utils";
+import {
+  fetchUnitById,
+  showNotification,
+  showNotificationError,
+  updateUnit,
+} from "../../../utils";
 
 const EditUnit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,13 +21,15 @@ const EditUnit: React.FC = () => {
       try {
         if (!id) return;
         const res = await fetchUnitById(id);
-        console.log(res.data.response.frame.braking_system)
+        console.log(res.data.response.frame.braking_system);
 
         setUnitData({
           uuid: res.data.response.uuid,
           type_name: res.data.response.type_name,
           price: res.data.response.price,
           category: res.data.response.category,
+          stok: res.data.response.stok,
+          status: res.data.response.ket,
           path_img: res.data.response.path_img,
           machine_type: res.data.response.machine?.machine_type,
           diameter: res.data.response.machine?.diameter,
@@ -45,11 +52,13 @@ const EditUnit: React.FC = () => {
           rear_brake: res.data.response.frame?.rear_brake,
           braking_system: res.data.response.frame?.braking_system,
           lwh: res.data.response.Dimensions?.lwh,
-          wheel_axis_distance: res.data.response.Dimensions?.wheel_axis_distance,
+          wheel_axis_distance:
+            res.data.response.Dimensions?.wheel_axis_distance,
           lowest_distance: res.data.response.Dimensions?.lowest_distance,
           curb_weight: res.data.response.Dimensions?.curb_weight,
           fuel_tank_capacity: res.data.response.Capacity?.fuel_tank_capacity,
-          lubricating_oil_capacity: res.data.response.Capacity?.lubricating_oil_capacity,
+          lubricating_oil_capacity:
+            res.data.response.Capacity?.lubricating_oil_capacity,
           battery_type: res.data.response.Electricity?.battery_type,
           ignition_system: res.data.response.Electricity?.ignition_system,
           plug_type: res.data.response.Electricity?.plug_type,

@@ -8,9 +8,11 @@ const menuItems = [
   { label: "Beranda", href: "#home" },
   { label: "Tentang", href: "#about" },
   { label: "Produk", href: "#products" },
+  { label: "Bagian", href: "#part" },
+  { label: "Service", href: "#service" },
   { label: "Lokasi", href: "#location" },
   { label: "Cek Pembayaran", href: "#payment" },
-  {label: "Login", href: "/auth/login" },
+  { label: "Login", href: "/auth/login" },
 ];
 
 const NavbarComponents: React.FC = () => {

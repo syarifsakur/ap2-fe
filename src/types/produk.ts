@@ -57,4 +57,5 @@ export interface Products {
   Electricity: Electricity;
   specs: Array<{ label: string; value: string }>;
   category: string;
+  ket?: string;
 }

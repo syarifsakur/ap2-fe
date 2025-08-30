@@ -2,34 +2,38 @@ import React, { useState, useEffect } from "react";
 import {
   About,
   Beranda,
+  BookingService,
   Check,
+  ListPart,
   Location,
   NavbarComponents,
   Product,
+  Loading,
 } from "../../../components";
 import Footer from "../../../components/footer";
 import { fetchUnit } from "../../../utils/apis";
 import type { Products } from "../../../types/produk";
-import { Loading } from "../../../components"; 
 
 const Home: React.FC = () => {
   const [units, setUnits] = useState<Products[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const getUnits = async () => {
+    const getData = async () => {
       try {
         setLoading(true);
-        const res = await fetchUnit();
-        setUnits(res.data.response);
+
+        const resUnit = await fetchUnit();
+        setUnits(resUnit.data.response);
       } catch (err) {
-        console.error("Error fetching units:", err);
+        console.error("Error fetching data:", err);
         setUnits([]);
       } finally {
-        setTimeout(() => setLoading(false), 300); 
+        setTimeout(() => setLoading(false), 300);
       }
     };
-    getUnits();
+
+    getData();
   }, []);
 
   return (
@@ -42,6 +46,8 @@ const Home: React.FC = () => {
           <Beranda />
           <About />
           <Product units={units} />
+          <ListPart /> 
+          <BookingService />
           <Location />
           <Check />
           <Footer />

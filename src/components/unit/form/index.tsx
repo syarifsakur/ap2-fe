@@ -15,20 +15,17 @@ import { useNavigate } from "react-router-dom";
 
 interface FormUnitStepProps {
   onSubmit: (formData: FormData) => Promise<void>;
+  initialData?: any;
 }
 
 const { Option } = Select;
 const { Step } = Steps;
 
-interface FormUnitStepProps {
-  onSubmit: (formData: FormData) => Promise<void>;
-  initialData?: any;
-}
-
 const FormUnitStep: React.FC<FormUnitStepProps> = ({
   onSubmit,
   initialData,
 }) => {
+  const [stok, setStok] = useState<number | null>(null);
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [current, setCurrent] = useState(0);
@@ -37,6 +34,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
   useEffect(() => {
     if (initialData) {
       form.setFieldsValue(initialData);
+      setStok(initialData.stok ?? null);
 
       if (initialData.path_img) {
         setFileList([
@@ -52,7 +50,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
   }, [initialData, form]);
 
   const stepFields: string[][] = [
-    ["type_name", "price", "category"], // step 0
+    ["type_name", "price", "category"],
     [
       "machine_type",
       "diameter",
@@ -143,6 +141,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="Contoh: Supra X 125" />
             </Form.Item>
+
             <Form.Item
               name="price"
               label="Harga"
@@ -160,6 +159,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
                 }
               />
             </Form.Item>
+
             <Form.Item
               name="category"
               label="Kategori"
@@ -173,6 +173,20 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
                 <Option value="bingbike">Big Bike</Option>
               </Select>
             </Form.Item>
+
+            <Form.Item
+              name="stok"
+              label="Stok"
+              rules={[{ required: true, message: "Stok harus diisi" }]}
+            >
+              <InputNumber
+                style={{ width: "100%" }}
+                size="large"
+                placeholder="Cth: 10"
+                onChange={(value) => setStok(value ?? 0)}
+              />
+            </Form.Item>
+
             <Form.Item
               label="Foto Unit"
               required
@@ -190,7 +204,6 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
           </>
         )}
 
-        {/* Step 1 Mesin */}
         {current === 1 && (
           <>
             <Form.Item
@@ -200,6 +213,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="contoh: 4 Langkah, SOHC" />
             </Form.Item>
+
             <Form.Item
               label="Diameter x Langkah"
               name="diameter"
@@ -207,6 +221,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="contoh: 57.3 x 57.8 mm" />
             </Form.Item>
+
             <Form.Item
               label="Kapasitas Mesin (cc)"
               name="machine_capacity"
@@ -221,6 +236,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="10.6 : 1" />
             </Form.Item>
+
             <Form.Item
               label="Daya Maksimum"
               name="max_power"
@@ -228,6 +244,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="12.6 PS / 8,000 rpm" />
             </Form.Item>
+
             <Form.Item
               label="Torsi Maksimum"
               name="max_torque"
@@ -235,6 +252,8 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="14.8 Nm / 6,500 rpm" />
             </Form.Item>
+
+
             <Form.Item
               label="Tipe Kopling"
               name="kopling_type"
@@ -242,6 +261,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="Manual, Multiplate Wet Clutch" />
             </Form.Item>
+
             <Form.Item
               label="Tipe Starter"
               name="starter_type"
@@ -249,6 +269,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="Elektrik & Kick Starter" />
             </Form.Item>
+            
             <Form.Item
               label="Sistem Suplai Bahan Bakar"
               name="fuel_supply_system"
@@ -256,6 +277,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="PGM-FI" />
             </Form.Item>
+
             <Form.Item
               label="Tipe Transmisi"
               name="tranmisi_type"
@@ -271,6 +293,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="contoh: Pendingin Cairan" />
             </Form.Item>
+
             <Form.Item
               label="Pola Gigi"
               name="gear_shift_pattern"
@@ -281,7 +304,6 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
           </>
         )}
 
-        {/* Step 2 Rangka */}
         {current === 2 && (
           <>
             <Form.Item
@@ -291,6 +313,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="Tulang Punggung – eSAF" />
             </Form.Item>
+
             <Form.Item
               name="front_suspension_type"
               label="Suspensi Depan"
@@ -298,6 +321,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="Teleskopik" />
             </Form.Item>
+
             <Form.Item
               name="rear_suspension_type"
               label="Suspensi Belakang"
@@ -305,6 +329,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="Lengan Ayun dengan Peredam Kejut Tunggal" />
             </Form.Item>
+
             <Form.Item
               name="front_tire_size"
               label="Ukuran Ban Depan"
@@ -312,6 +337,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="80/90 - 14 M/C 40P Tubeless" />
             </Form.Item>
+
             <Form.Item
               name="rear_tire_size"
               label="Ukuran Ban Belakang"
@@ -319,6 +345,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="90/90 - 14 M/C 46P Tubeless" />
             </Form.Item>
+
             <Form.Item
               name="front_brake"
               label="Rem Depan"
@@ -326,6 +353,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="Cakram Hidrolik dengan Piston Tunggal" />
             </Form.Item>
+
             <Form.Item
               name="rear_brake"
               label="Rem Belakang"
@@ -333,6 +361,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="Tromol" />
             </Form.Item>
+
             <Form.Item
               name="braking_system"
               label="Sistem Pengereman"
@@ -343,7 +372,6 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
           </>
         )}
 
-        {/* Step 3 Dimensi */}
         {current === 3 && (
           <>
             <Form.Item
@@ -353,6 +381,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="1921 x 683 x 1062 mm" />
             </Form.Item>
+
             <Form.Item
               name="wheel_axis_distance"
               label="Jarak Sumbu Roda"
@@ -360,6 +389,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="1260 mm" />
             </Form.Item>
+
             <Form.Item
               name="lowest_distance"
               label="Jarak Terendah ke Tanah"
@@ -367,6 +397,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="135 mm" />
             </Form.Item>
+
             <Form.Item
               name="curb_weight"
               label="Berat Kosong"
@@ -377,7 +408,6 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
           </>
         )}
 
-        {/* Step 4 Kapasitas */}
         {current === 4 && (
           <>
             <Form.Item
@@ -387,6 +417,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="4.2 Liter" />
             </Form.Item>
+
             <Form.Item
               name="lubricating_oil_capacity"
               label="Kapasitas Oli Mesin"
@@ -397,7 +428,6 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
           </>
         )}
 
-        {/* Step 5 Kelistrikan */}
         {current === 5 && (
           <>
             <Form.Item
@@ -407,6 +437,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="12V - 5Ah" />
             </Form.Item>
+
             <Form.Item
               name="ignition_system"
               label="Sistem Pengapian"
@@ -414,6 +445,7 @@ const FormUnitStep: React.FC<FormUnitStepProps> = ({
             >
               <Input placeholder="Full Transistorized" />
             </Form.Item>
+            
             <Form.Item
               name="plug_type"
               label="Tipe Busi"

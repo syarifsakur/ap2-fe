@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Table, Input, Modal, Card} from "antd";
+import { Button, Table, Input, Modal, Card } from "antd";
 import { unitColumns } from "../../../columns/unit.columns";
 import { deleteUnit, fetchUnit } from "../../../utils/apis";
 import type { Products } from "../../../types";
@@ -92,6 +92,8 @@ const DefaultUnit: React.FC = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
+    setPagination((prev) => ({ ...prev, current: 1 }));
+    return;
   };
 
   const handleModalClose = () => {

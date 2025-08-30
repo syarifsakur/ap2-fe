@@ -3,6 +3,8 @@ import type { AuthProps, Credit } from "../../types";
 import type { Products } from "../..//types";
 import { getItem, removeItem, setItem } from "../storages";
 import { jwtDecode } from "jwt-decode";
+import type { Service } from "../../types/service";
+import type { Part } from "../../types/part";
 
 const API_JWT = axios.create({
   baseURL: "http://localhost:3000",
@@ -83,6 +85,19 @@ export const createCredit = async (data: Credit) => {
 export const fetchCredit = async () => {
   return await API_JWT.get("/credit");
 };
-export const deleteCredit = async (id:string) => {
-  return await API_JWT.delete(`/credit/delete/${id}`)
+export const deleteCredit = async (id: string) => {
+  return await API_JWT.delete(`/credit/delete/${id}`);
+};
+
+// api Part
+export const createPart = async (data: Part) => {
+  return await API_JWT.post("/part/create");
+};
+export const fetchPart = async (page = 1, limit = 5) => {
+  return await API_JWT.get(`/part?page=${page}&limit=${limit}`);
+};
+
+// api service
+export const createService = async (data: Service) => {
+  return await API_JWT.post("/service/create");
 };
