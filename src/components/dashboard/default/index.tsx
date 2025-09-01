@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Row, Col, Card, Statistic } from "antd";
 import {
-  // UserOutlined,
   ShoppingOutlined,
   DollarOutlined,
-  // DatabaseOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 import { Line } from "@ant-design/plots";
-import { fetchUnit, fetchCredit } from "../../../utils";
+import { fetchUnit, fetchCredit, fetchService } from "../../../utils";
 
 const { Content } = Layout;
 
 const Dashboard: React.FC = () => {
   const [totalUnit, setTotalUnit] = useState<number>(0);
   const [totalCredit, setTotalCredit] = useState<number>(0);
+  const [totalService, setTotalService] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -21,9 +21,11 @@ const Dashboard: React.FC = () => {
       try {
         const units = await fetchUnit();
         const credits = await fetchCredit();
+        const service = await fetchService();
 
         setTotalUnit(units.data.total);
         setTotalCredit(credits.data.total);
+        setTotalService(service.data.total);
       } catch (error) {
         console.error("Gagal fetch data dashboard:", error);
       } finally {
@@ -55,7 +57,7 @@ const Dashboard: React.FC = () => {
     <Content style={{ margin: "20px" }}>
       {/* Statistik Cards */}
       <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12} lg={12}>
+        <Col xs={24} sm={12} lg={8}>
           <Card loading={loading} className="shadow-xl h-40 flex items-center">
             <Statistic
               title={<span className="text-xl">Total Unit</span>}
@@ -66,7 +68,7 @@ const Dashboard: React.FC = () => {
           </Card>
         </Col>
 
-        <Col xs={24} sm={12} lg={12}>
+        <Col xs={24} sm={12} lg={8}>
           <Card loading={loading} className="shadow-xl h-40 flex items-center">
             <Statistic
               title={<span className="text-xl">Total Kredit</span>}
@@ -76,22 +78,16 @@ const Dashboard: React.FC = () => {
             />
           </Card>
         </Col>
-
-        {/* Kalau nanti mau aktifkan lagi bisa langsung rapih juga */}
-        {/* <Col xs={24} sm={12} lg={6}>
-          <Card loading={loading} className="shadow-xl">
-            <Statistic title="Total User" value={34} prefix={<UserOutlined />} />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card loading={loading} className="shadow-xl">
+        <Col xs={24} sm={12} lg={8}>
+          <Card loading={loading} className="shadow-xl h-40 flex items-center">
             <Statistic
-              title="Database Records"
-              value={500}
+              title={<span className="text-xl">Total Service</span>}
+              value={totalService}
               prefix={<DatabaseOutlined />}
+              valueRender={(val) => <span className="text-2xl">{val}</span>}
             />
           </Card>
-        </Col> */}
+        </Col>
       </Row>
 
       {/* Grafik */}

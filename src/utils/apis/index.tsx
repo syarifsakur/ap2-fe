@@ -96,8 +96,20 @@ export const createPart = async (data: Part) => {
 export const fetchPart = async (page = 1, limit = 5) => {
   return await API_JWT.get(`/part?page=${page}&limit=${limit}`);
 };
+export const fetchPartDefault = async (page = 1, limit = 10) => {
+  return await API_JWT.get(`/part?page=${page}&limit=${limit}`);
+};
+export const deletePart = async (id: string) => {
+  return await API_JWT.delete(`/part/delete/${id}`);
+};
 
 // api service
-export const createService = async (data: Service) => {
-  return await API_JWT.post("/service/create");
+export const createService = async (payload: Service) => {
+  return await API_JWT.post("/service/create", payload);
+};
+export const fetchService = async () => {
+  return await API_JWT.get("/service");
+};
+export const deleteService = async (id: string) => {
+  return await API_JWT.delete(`/service/delete/${id}`);
 };

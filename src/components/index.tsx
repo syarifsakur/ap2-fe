@@ -7,6 +7,7 @@ import Check from "./check";
 import { DefaultCredit } from "./credit";
 import BookingService from "./booking_service";
 import { ListPart } from "./part";
+import { ServiceDefault } from "./service";
 
 export * from "./others";
 
@@ -20,4 +21,5 @@ export {
   DefaultCredit,
   BookingService,
   ListPart,
+  ServiceDefault
 };

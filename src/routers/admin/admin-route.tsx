@@ -1,5 +1,14 @@
 import { Navigate, Routes, Route } from "react-router-dom";
-import { CreateUnit, Credit, Dashboard, EditUnit, Unit } from "../../pages";
+import {
+  CreatePart,
+  CreateUnit,
+  Credit,
+  Dashboard,
+  EditUnit,
+  Part,
+  Service,
+  Unit,
+} from "../../pages";
 import { getItem } from "../../utils";
 
 const AdminRoute = () => {
@@ -15,6 +24,9 @@ const AdminRoute = () => {
       <Route path="credit" element={<Credit />} />
       <Route path="unit/create" element={<CreateUnit />} />
       <Route path="/unit/edit/:id" element={<EditUnit />} />
+      <Route path="/service" element={<Service />} />
+      <Route path="/part" element={<Part />} />
+      <Route path="/part/create" element={<CreatePart />} />
     </Routes>
   );
 };

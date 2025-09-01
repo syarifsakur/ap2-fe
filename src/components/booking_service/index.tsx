@@ -1,35 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input, Select, DatePicker, TimePicker, Button } from "antd";
 import {
   createService,
   showNotification,
   showNotificationError,
+  fetchUnit,
 } from "../../utils";
+import type { Service } from "../../types/service";
+import type { Products } from "../../types";
 
 const { Option } = Select;
 
 const BookingService: React.FC = () => {
+  const [units, setUnits] = useState<Products[]>([]);
+  const [filteredUnits, setFilteredUnits] = useState<Products[]>([]);
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: Service) => {
     try {
       setIsLoading(true);
 
-      const payload = {
-        ...values,
-        Bookingservice_date: values.service_date.format("YYYY-MM-DD"),
-        service_time: values.service_time.format("HH:mm"),
-      };
-
-      await createService(payload);
+      await createService(values);
       showNotification("Booking service berhasil dikirim!");
       form.resetFields();
     } catch (error) {
+      console.log(error);
       showNotificationError("Gagal mengirim booking service!");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    const fetchUnitsData = async () => {
+      try {
+        const response = await fetchUnit();
+        const data: Products[] = response.data.response;
+        setUnits(data);
+        setFilteredUnits([]);
+      } catch (error) {
+        showNotificationError("Gagal mengambil data unit!");
+        console.error("Error fetching units:", error);
+      }
+    };
+    fetchUnitsData();
+  }, []);
+
+  const handleCategoryChange = (value: string) => {
+    const newFilteredUnits = units.filter((unit) => unit.category === value);
+    setFilteredUnits(newFilteredUnits);
+    form.setFieldsValue({ unit_id: null });
   };
 
   return (
@@ -38,18 +59,15 @@ const BookingService: React.FC = () => {
       className="py-10 md:py-20 bg-white flex flex-col items-center"
     >
       <div className="container mx-auto px-4 md:px-8 py-10">
-           <h2 className="text-3xl text-center mb-8">
-              Booking Service
-            </h2>
+        <h2 className="text-3xl text-center mb-8">Booking Service</h2>
 
         <Form
           form={form}
           layout="vertical"
           onFinish={handleSubmit}
-          className="bg-white rounded-xl p-8"
+          className="bg-white rounded-xl p-8 shadow"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Kolom Kiri */}
             <div>
               <Form.Item
                 label="Nama"
@@ -91,7 +109,10 @@ const BookingService: React.FC = () => {
                 name="category"
                 rules={[{ required: true, message: "Kategori wajib dipilih!" }]}
               >
-                <Select placeholder="Pilih Kategori">
+                <Select
+                  placeholder="Pilih Kategori"
+                  onChange={handleCategoryChange}
+                >
                   <Option value="matic">Matic</Option>
                   <Option value="sport">Sport</Option>
                   <Option value="cub">Cub</Option>
@@ -101,24 +122,36 @@ const BookingService: React.FC = () => {
               </Form.Item>
             </div>
 
-            {/* Kolom Kanan */}
             <div>
               <Form.Item
                 label="Varian Motor"
                 name="unit_id"
-                rules={[{ required: true, message: "Varian motor wajib dipilih!" }]}
+                rules={[
+                  { required: true, message: "Varian motor wajib dipilih!" },
+                ]}
               >
-                <Select placeholder="Pilih Varian Motor">
-                  {/* TODO: isi dari API units */}
-                  <Option value="1">Beat Street 2024</Option>
-                  <Option value="2">CBR 150R</Option>
+                <Select
+                  placeholder="Pilih Varian Motor"
+                  disabled={filteredUnits.length === 0}
+                >
+                  {filteredUnits.length > 0 ? (
+                    filteredUnits.map((unit) => (
+                      <Option key={unit.uuid} value={unit.uuid}>
+                        {unit.type_name}
+                      </Option>
+                    ))
+                  ) : (
+                    <Option disabled>Tidak Ada Unit</Option>
+                  )}
                 </Select>
               </Form.Item>
 
               <Form.Item
                 label="Tahun Motor"
                 name="year"
-                rules={[{ required: true, message: "Tahun motor wajib dipilih!" }]}
+                rules={[
+                  { required: true, message: "Tahun motor wajib dipilih!" },
+                ]}
               >
                 <Select placeholder="Pilih Tahun">
                   {[2025, 2024, 2023, 2022, 2021, 2020].map((year) => (
@@ -132,7 +165,9 @@ const BookingService: React.FC = () => {
               <Form.Item
                 label="Jenis Service"
                 name="service_type"
-                rules={[{ required: true, message: "Jenis service wajib dipilih!" }]}
+                rules={[
+                  { required: true, message: "Jenis service wajib dipilih!" },
+                ]}
               >
                 <Select placeholder="Pilih Jenis Service">
                   <Option value="service ringan">Service Ringan</Option>
@@ -165,7 +200,7 @@ const BookingService: React.FC = () => {
               type="primary"
               htmlType="submit"
               loading={isLoading}
-              className="w-full sm:w-2xl py-2"
+              className="w-full sm:w-72 py-2"
               style={{ backgroundColor: "red" }}
             >
               Kirim Booking

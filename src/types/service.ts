@@ -1,6 +1,6 @@
 export type Category = "matic" | "sport" | "cub" | "ev" | "bigbike";
 
-// export type ServiceType = 
+// export type ServiceType =
 //   | "general service"
 //   | "service ringan"
 //   | "service berat"
@@ -23,5 +23,6 @@ export interface Service {
   service_type: string;
   service_date: string;
   service_time: string;
-  unit: Unit;
+  unit_id: Unit;
+  type_name: string;
 }
