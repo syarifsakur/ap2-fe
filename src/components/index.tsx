@@ -8,6 +8,7 @@ import { DefaultCredit } from "./credit";
 import BookingService from "./booking_service";
 import { ListPart } from "./part";
 import { ServiceDefault } from "./service";
+import ChangePasswordComponent from "./change_password";
 
 export * from "./others";
 
@@ -21,5 +22,6 @@ export {
   DefaultCredit,
   BookingService,
   ListPart,
-  ServiceDefault
+  ServiceDefault,
+  ChangePasswordComponent,
 };

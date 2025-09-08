@@ -24,6 +24,14 @@ const BookingService: React.FC = () => {
       await createService(values);
       showNotification("Booking service berhasil dikirim!");
       form.resetFields();
+
+      setTimeout(() => {
+        const phoneNumber = "6285255551795";
+        const message = `Halo, saya ${values.name} tertarik melakukan pembelian sepeda motor Honda.`;
+        const encodedMessage = encodeURIComponent(message);
+        const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        window.open(url, "_blank");
+      }, 2000);
     } catch (error) {
       console.log(error);
       showNotificationError("Gagal mengirim booking service!");
@@ -59,13 +67,13 @@ const BookingService: React.FC = () => {
       className="py-10 md:py-20 bg-white flex flex-col items-center"
     >
       <div className="container mx-auto px-4 md:px-8 py-10">
-        <h2 className="text-3xl text-center mb-8">Booking Service</h2>
+        <h2 className="text-3xl text-center mb-8 font-semibold">Booking Service</h2>
 
         <Form
           form={form}
           layout="vertical"
           onFinish={handleSubmit}
-          className="bg-white rounded-xl p-8 shadow"
+          className="bg-white rounded-xl p-8"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
@@ -200,10 +208,10 @@ const BookingService: React.FC = () => {
               type="primary"
               htmlType="submit"
               loading={isLoading}
-              className="w-full sm:w-72 py-2"
+              className="w-full sm:w-2xl py-2 "
               style={{ backgroundColor: "red" }}
             >
-              Kirim Booking
+              Kirim
             </Button>
           </Form.Item>
         </Form>

@@ -1,4 +1,4 @@
-import { Button, Tooltip, Popconfirm } from "antd";
+import { Button, Tooltip, Popconfirm, Image } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { IoMdEye } from "react-icons/io";
@@ -55,7 +55,20 @@ export const unitColumns: (pagination: {
     align: "center",
     render: (path_img) => (
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <img src={path_img} alt="Unit Image" className="w-32 h-32" />
+        {path_img ? (
+          <Image
+            src={path_img}
+            alt="Unit Image"
+            width={100}
+            height={100}
+            style={{ objectFit: "cover", borderRadius: 8 }}
+            preview={{
+              mask: "Klik untuk perbesar",
+            }}
+          />
+        ) : (
+          <span>-</span>
+        )}
       </div>
     ),
   },
@@ -122,18 +135,16 @@ export const unitColumns: (pagination: {
             </Button>
           </Tooltip>
           <Popconfirm
-            title={`Yakin menghapus surat ${record.type_name}?`}
+            title={`Yakin menghapus unit ${record.type_name}?`}
             onConfirm={() => onDelete(value)}
             okText="Ya"
             cancelText="Tidak"
           >
-            <Button
-              htmlType="button"
-              type="text"
-              className="cursor-pointer text-red-600 hover:text-red-800"
-            >
-              <MdDelete className="text-lg text-red-600" />
-            </Button>
+            <Tooltip title="Delete" overlayInnerStyle={{ color: "white" }}>
+              <Button htmlType="button" type="text" className="cursor-pointer">
+                <MdDelete className="text-lg text-red-600" />
+              </Button>
+            </Tooltip>
           </Popconfirm>
         </div>
       );

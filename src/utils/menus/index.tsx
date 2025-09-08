@@ -1,9 +1,10 @@
 import {
   DashboardOutlined,
-  UsergroupAddOutlined,
   DollarOutlined,
   ShoppingOutlined,
   DatabaseOutlined,
+  DropboxOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 
 export const menuItems = [
@@ -18,27 +19,33 @@ export const menuItems = [
       },
       {
         key: "2",
-        icon: <  ShoppingOutlined />,
+        icon: <ShoppingOutlined />,
         label: "Unit",
         path: "/admin/unit",
       },
       {
         key: "3",
-        icon: <DollarOutlined/>,
+        icon: <DollarOutlined />,
         label: "Credit",
         path: "/admin/credit",
       },
       {
         key: "4",
-        icon: <UsergroupAddOutlined />,
+        icon: <DropboxOutlined />,
         label: "Part",
         path: "/admin/part",
       },
       {
         key: "5",
-        icon: <  DatabaseOutlined />,
+        icon: <DatabaseOutlined />,
         label: "Service",
         path: "/admin/service",
+      },
+      {
+        key: "6",
+        icon: <SettingOutlined />,
+        label: "Change Password",
+        path: "/admin/change-password",
       },
     ],
   },

@@ -68,9 +68,9 @@ const Check: React.FC = () => {
       className="py-10 md:py-20 bg-white flex flex-col items-center"
     >
       <div className="container mx-auto px-4 md:px-8 py-10">
-           <h2 className="text-3xl text-center mb-12">
-              Simulasi Kredit
-            </h2>
+        <h2 className="text-3xl text-center mb-12 font-semibold">
+          Simulasi Kredit
+        </h2>
 
         <Form
           form={form}
@@ -140,7 +140,7 @@ const Check: React.FC = () => {
                 </Select>
               </Form.Item>
             </div>
-            
+
             <div>
               <h2 className="text-xl font-semibold mb-4">Informasi Motor</h2>
               <Form.Item

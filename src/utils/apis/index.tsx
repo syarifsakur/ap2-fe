@@ -5,6 +5,7 @@ import { getItem, removeItem, setItem } from "../storages";
 import { jwtDecode } from "jwt-decode";
 import type { Service } from "../../types/service";
 import type { Part } from "../../types/part";
+import type { ChangePassword } from "../../types/change-password";
 
 const API_JWT = axios.create({
   baseURL: "http://localhost:3000",
@@ -61,6 +62,15 @@ API_JWT.interceptors.request.use(
 export const login = (data: AuthProps) => API_JWT.post("/auth/login", data);
 export const logout = () => API_JWT.delete("/auth/logout");
 
+// change-password
+export const changePassword = (data: ChangePassword) =>
+  API_JWT.put("/auth/change-password", data, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
 //api unit
 export const fetchUnit = async () => {
   return await API_JWT.get("/unit");
@@ -90,14 +100,28 @@ export const deleteCredit = async (id: string) => {
 };
 
 // api Part
-export const createPart = async (data: Part) => {
-  return await API_JWT.post("/part/create");
+export const createPart = async (data: FormData) => {
+  return await API_JWT.post("/part/create", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
-export const fetchPart = async (page = 1, limit = 5) => {
-  return await API_JWT.get(`/part?page=${page}&limit=${limit}`);
+export const fetchPart = async (page = 1, limit = 5, search = "") => {
+  return await API_JWT.get(
+    `/part?page=${page}&limit=${limit}&search=${search}`
+  );
 };
-export const fetchPartDefault = async (page = 1, limit = 10) => {
-  return await API_JWT.get(`/part?page=${page}&limit=${limit}`);
+export const fetchPartById = async (id: string) => {
+  return await API_JWT.get(`/part/${id}`);
+};
+export const fetchPartDefault = async (page = 1, limit = 10, search = "") => {
+  return await API_JWT.get(
+    `/part?page=${page}&limit=${limit}&search=${search}`
+  );
+};
+export const updatePart = async (uuid: string, data: Part) => {
+  return await API_JWT.patch(`/part/update/${uuid}`, data);
 };
 export const deletePart = async (id: string) => {
   return await API_JWT.delete(`/part/delete/${id}`);
@@ -107,8 +131,8 @@ export const deletePart = async (id: string) => {
 export const createService = async (payload: Service) => {
   return await API_JWT.post("/service/create", payload);
 };
-export const fetchService = async () => {
-  return await API_JWT.get("/service");
+export const fetchService = async (search = "") => {
+  return await API_JWT.get(`/service?search=${search}`);
 };
 export const deleteService = async (id: string) => {
   return await API_JWT.delete(`/service/delete/${id}`);

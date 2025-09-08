@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Row, Col, Card, Statistic } from "antd";
+import { Layout, Row, Col, Card} from "antd";
 import {
   ShoppingOutlined,
   DollarOutlined,
@@ -55,45 +55,86 @@ const Dashboard: React.FC = () => {
 
   return (
     <Content style={{ margin: "20px" }}>
-      {/* Statistik Cards */}
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} lg={8}>
-          <Card loading={loading} className="shadow-xl h-40 flex items-center">
-            <Statistic
-              title={<span className="text-xl">Total Unit</span>}
-              value={totalUnit}
-              prefix={<ShoppingOutlined />}
-              valueRender={(val) => <span className="text-2xl">{val}</span>}
-            />
+          <Card
+            loading={loading}
+            className="relative shadow-lg h-40 rounded-2xl overflow-hidden text-white"
+            bodyStyle={{ height: "100%", padding: "1.5rem" }}
+            style={{
+              background: "linear-gradient(135deg, #ffb347 0%, #ffcc33 100%)",
+            }}
+          >
+            <div className="absolute bottom-[-40px] right-[-40px] w-40 h-40 bg-white/20 rounded-full"></div>
+
+            <div className="relative z-10 flex flex-col h-full justify-between">
+              <div className="flex items-center gap-2">
+                <ShoppingOutlined className="text-2xl opacity-90" />
+                <span className="text-2xl font-semibold">Total Unit</span>
+              </div>
+              <div>
+                <div className="text-4xl font-bold">{totalUnit}</div>
+                <div className="text-sm opacity-80">Units</div>
+              </div>
+            </div>
           </Card>
         </Col>
 
         <Col xs={24} sm={12} lg={8}>
-          <Card loading={loading} className="shadow-xl h-40 flex items-center">
-            <Statistic
-              title={<span className="text-xl">Total Kredit</span>}
-              value={totalCredit}
-              prefix={<DollarOutlined />}
-              valueRender={(val) => <span className="text-2xl">{val}</span>}
-            />
+          <Card
+            loading={loading}
+            className="relative shadow-lg h-40 rounded-2xl overflow-hidden text-white"
+            bodyStyle={{ height: "100%", padding: "1.5rem" }}
+            style={{
+              background: "linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)",
+            }}
+          >
+            <div className="absolute bottom-[-40px] right-[-40px] w-40 h-40 bg-white/20 rounded-full"></div>
+
+            <div className="relative z-10 flex flex-col h-full justify-between">
+              <div className="flex items-center gap-2">
+                <DollarOutlined className="text-2xl opacity-90" />
+                <span className="text-xl">Total Kredit</span>
+              </div>
+              <div>
+                <div className="text-4xl font-bold">{totalCredit}</div>
+                <div className="text-sm opacity-80">Kredit</div>
+              </div>
+            </div>
           </Card>
         </Col>
+
         <Col xs={24} sm={12} lg={8}>
-          <Card loading={loading} className="shadow-xl h-40 flex items-center">
-            <Statistic
-              title={<span className="text-xl">Total Service</span>}
-              value={totalService}
-              prefix={<DatabaseOutlined />}
-              valueRender={(val) => <span className="text-2xl">{val}</span>}
-            />
+          <Card
+            loading={loading}
+            className="relative shadow-lg h-40 rounded-2xl overflow-hidden text-white"
+            bodyStyle={{ height: "100%", padding: "1.5rem" }}
+            style={{
+              background: "linear-gradient(135deg, #10b981 0%, #34d399 100%)",
+            }}
+          >
+            <div className="absolute bottom-[-40px] right-[-40px] w-40 h-40 bg-white/20 rounded-full"></div>
+
+            <div className="relative z-10 flex flex-col h-full justify-between">
+              <div className="flex items-center gap-2">
+                <DatabaseOutlined className="text-2xl opacity-90" />
+                <span className="text-2xl">Total Service</span>
+              </div>
+              <div>
+                <div className="text-4xl font-bold">{totalService}</div>
+                <div className="text-sm opacity-80">Services</div>
+              </div>
+            </div>
           </Card>
         </Col>
       </Row>
 
-      {/* Grafik */}
       <Row style={{ marginTop: "30px" }}>
         <Col xs={24}>
-          <Card title="Grafik Penjualan Unit" className="shadow-xl">
+          <Card
+            title="📊 Grafik Penjualan Unit"
+            className="shadow-xl rounded-2xl"
+          >
             <Line {...config} />
           </Card>
         </Col>

@@ -11,7 +11,7 @@ const menuItems = [
   { label: "Bagian", href: "#part" },
   { label: "Service", href: "#service" },
   { label: "Lokasi", href: "#location" },
-  { label: "Cek Pembayaran", href: "#payment" },
+  { label: "Kredit", href: "#payment" },
   { label: "Login", href: "/auth/login" },
 ];
 

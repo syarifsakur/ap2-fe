@@ -18,13 +18,13 @@ export const serviceColumns: (pagination: {
     },
     align: "center",
   },
-  {
-    title: "Tanggal Dibuat",
-    dataIndex: "createdAt",
-    key: "createdAt",
-    align: "center",
-    render: (value) => <span>{dayjs(value).format("YYYY-MM-DD")}</span>,
-  },
+  // {
+  //   title: "Tanggal Dibuat",
+  //   dataIndex: "createdAt",
+  //   key: "createdAt",
+  //   align: "center",
+  //   render: (value) => <span>{dayjs(value).format("YYYY-MM-DD")}</span>,
+  // },
   {
     title: "Nama",
     dataIndex: "name",

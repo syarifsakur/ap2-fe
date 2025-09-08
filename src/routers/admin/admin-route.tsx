@@ -1,9 +1,11 @@
 import { Navigate, Routes, Route } from "react-router-dom";
 import {
+  ChangePassword,
   CreatePart,
   CreateUnit,
   Credit,
   Dashboard,
+  EditPart,
   EditUnit,
   Part,
   Service,
@@ -27,6 +29,8 @@ const AdminRoute = () => {
       <Route path="/service" element={<Service />} />
       <Route path="/part" element={<Part />} />
       <Route path="/part/create" element={<CreatePart />} />
+      <Route path="/part/edit/:id" element={<EditPart />} />
+      <Route path="/change-password" element={<ChangePassword/>}/>
     </Routes>
   );
 };

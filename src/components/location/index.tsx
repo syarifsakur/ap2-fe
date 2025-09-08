@@ -7,7 +7,7 @@ const Location: React.FC = () => {
       className="py-10 md:py-20 bg-white flex flex-col items-center"
     >
       <div className="container mx-auto px-4 md:px-8">
-        <h2 className="text-3xl text-center mb-8">Lokasi</h2>
+        <h2 className="text-3xl text-center mb-8 font-semibold">Lokasi</h2>
         <div className="w-full h-[300px] md:h-[450px] lg:h-[550px] rounded-xl overflow-hidden shadow-lg">
           <iframe
             title="Google Maps Location"

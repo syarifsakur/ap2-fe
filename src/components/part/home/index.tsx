@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Pagination, Spin } from "antd";
+import { Button, Pagination, Spin, Image } from "antd";
 import { showNotification, fetchPart } from "../../../utils";
 import type { Part } from "../../../types/part";
 
@@ -45,7 +45,7 @@ const ListPart: React.FC = () => {
         className="py-10 md:py-20 bg-gray-50 flex flex-col items-center justify-center w-full"
       >
         <div className="container mx-auto px-4 md:px-10">
-          <h2 className="text-3xl text-center mb-8">Part</h2>
+          <h2 className="text-3xl text-center mb-8 font-semibold">Part</h2>
 
           {loading ? (
             <div className="flex justify-center items-center h-40">
@@ -53,20 +53,36 @@ const ListPart: React.FC = () => {
             </div>
           ) : parts.length > 0 ? (
             <>
+              {/* Grid Items */}
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 w-full">
                 {parts.map((item) => (
                   <div
                     key={item.uuid}
                     className="bg-white rounded-2xl shadow-md hover:shadow-xl overflow-hidden flex flex-col transition-transform duration-300 transform hover:-translate-y-1"
                   >
-                    <div className="bg-gray-100 flex items-center justify-center h-36 sm:h-40">
-                      <img
-                        src={item.path_img}
-                        alt={item.name_part}
-                        className="max-h-32 sm:max-h-40 object-contain"
-                      />
+                    {/* Gambar */}
+                    <div className="bg-gray-100 flex items-center justify-center h-36 sm:h-40 p-2">
+                      {item.path_img ? (
+                        <Image
+                          src={item.path_img}
+                          alt={item.name_part}
+                          className="rounded-md object-contain"
+                          style={{
+                            maxHeight: "140px",
+                            borderRadius: "8px",
+                          }}
+                          preview={{
+                            mask: "Klik untuk perbesar",
+                          }}
+                        />
+                      ) : (
+                        <span className="text-gray-400 text-sm">
+                          Tidak ada gambar
+                        </span>
+                      )}
                     </div>
 
+                    {/* Konten */}
                     <div className="p-4 flex flex-col flex-grow">
                       <h3 className="text-sm sm:text-base font-semibold line-clamp-2 min-h-[40px] text-gray-800">
                         {item.name_part}
@@ -88,6 +104,7 @@ const ListPart: React.FC = () => {
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
                       </div>
 
+                      {/* Tombol */}
                       <div className="mt-4 flex items-center justify-center">
                         <Button
                           type="primary"
@@ -120,6 +137,7 @@ const ListPart: React.FC = () => {
                 ))}
               </div>
 
+              {/* Pagination */}
               <div className="flex justify-center mt-10">
                 <Pagination
                   current={page}

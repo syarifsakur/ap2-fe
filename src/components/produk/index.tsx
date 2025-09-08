@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Button, Modal, Card } from "antd";
+import { Layout, Button, Modal, Card, Image, Tooltip } from "antd";
 import type { Products } from "../../types/produk";
 import { IoMdEye } from "react-icons/io";
 import ModalMachine from "../unit/modal/machine";
@@ -79,10 +79,9 @@ const Product: React.FC<ProductProps> = ({ units }) => {
           className="py-10 md:py-20 bg-white shadow flex flex-col items-center justify-center"
         >
           <div className="container mx-auto px-6 md:px-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-800">
+            <h2 className="text-2xl md:text-3xl font-semibold text-center mb-8 text-gray-800">
               Pilih Motor Honda Favorit Anda
             </h2>
-
             <div className="flex flex-wrap justify-center gap-3 mb-10">
               {["matic", "sport", "cub", "EV", "BigBike"].map((category) => (
                 <button
@@ -106,13 +105,25 @@ const Product: React.FC<ProductProps> = ({ units }) => {
                     key={index}
                     className="bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden flex flex-col transition-transform transform hover:scale-105"
                   >
-                    <div className="bg-gray-100 flex items-center justify-center h-44 md:h-56">
-                      <img
-                        src={product.path_img}
-                        alt={product.type_name}
-                        className="max-h-40 md:max-h-52 object-contain"
-                      />
+                    <div className="bg-gray-100 flex items-center justify-center h-44 md:h-56 p-2">
+                      {product.path_img ? (
+                        <Image
+                          src={product.path_img}
+                          alt={product.type_name}
+                          className="rounded-md object-cover"
+                          style={{
+                            maxHeight: "200px",
+                            borderRadius: "8px",
+                          }}
+                          preview={{
+                            mask: "Klik untuk perbesar",
+                          }}
+                        />
+                      ) : (
+                        <span className="text-gray-400">Tidak ada gambar</span>
+                      )}
                     </div>
+
                     <div className="p-4 flex flex-col flex-grow">
                       <h3 className="text-base md:text-lg font-semibold line-clamp-2 min-h-[44px] md:min-h-[48px] text-gray-800">
                         {product.type_name}
@@ -143,7 +154,10 @@ const Product: React.FC<ProductProps> = ({ units }) => {
                         ))}
                       </ul>
                       <div className="text-base md:text-lg font-bold text-red-600 mt-3">
-                        Rp. {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                        Rp.{" "}
+                        {product.price
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
                       </div>
                       <div className="mt-4 flex items-center justify-between gap-2">
                         <Button
@@ -155,11 +169,14 @@ const Product: React.FC<ProductProps> = ({ units }) => {
                           }}
                           className="w-[75%] rounded-lg text-sm md:text-base"
                           onClick={() => {
-                            showNotification("Anda Akan Di Arahkan ke Wa Admin ");
+                            showNotification(
+                              "Anda Akan Di Arahkan ke Wa Admin "
+                            );
                             setTimeout(() => {
                               const phoneNumber = "6285255551795";
                               const message = `Halo, saya tertarik melakukan pembelian sepeda motor Honda.`;
-                              const encodedMessage = encodeURIComponent(message);
+                              const encodedMessage =
+                                encodeURIComponent(message);
                               const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
                               window.open(url, "_blank");
                             });
@@ -167,14 +184,16 @@ const Product: React.FC<ProductProps> = ({ units }) => {
                         >
                           Hubungi Kami
                         </Button>
-                        <Button
-                          htmlType="button"
-                          type="text"
-                          className="cursor-pointer text-green-600 hover:text-green-800"
-                          onClick={() => handleDetail(product)}
-                        >
-                          <IoMdEye className="text-lg md:text-xl" />
-                        </Button>
+                        <Tooltip title="Detail">
+                          <Button
+                            htmlType="button"
+                            type="text"
+                            className="cursor-pointer text-green-600 hover:text-green-800"
+                            onClick={() => handleDetail(product)}
+                          >
+                            <IoMdEye className="text-lg md:text-xl" />
+                          </Button>
+                        </Tooltip>
                       </div>
                     </div>
                   </div>

@@ -7,6 +7,7 @@ import Service from "./service";
 import Part from "./part";
 import CreatePart from "./part/create";
 import EditPart from "./part/edit";
+import ChangePassword from "./change-password";
 
 export {
   Dashboard,
@@ -18,4 +19,5 @@ export {
   Part,
   CreatePart,
   EditPart,
+  ChangePassword
 };
